@@ -2,9 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const AuthController = require('../controllers/AuthController');
 const router = express.Router();
-const authController = new AuthController();
+const admin = require('firebase-admin');
 
 router.use(bodyParser.json());
+
+const authController = new AuthController(admin.auth());
 
 router.post('/register', async (req, res) => {
   const { email, password } = req.body;
@@ -17,14 +19,17 @@ router.post('/register', async (req, res) => {
   }
 });
 
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await authController.signIn(email, password);
-    res.status(200).json({ message: 'Utilisateur connecté avec succès', uid: user.uid });
+    const userRecord = await authController.signInWithEmailAndPassword(email, password);
+    const customToken = await admin.auth().createCustomToken(userRecord.uid);
+
+    res.status(200).json({ message: 'Connexion réussie', token: customToken });
   } catch (error) {
-    res.status(401).json({ error: 'Erreur lors de la connexion de l\'utilisateur', message: error.message });
+    res.status(401).json({ error: 'Erreur lors de la connexion', message: error.message });
   }
 });
 
