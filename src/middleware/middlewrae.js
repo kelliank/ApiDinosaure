@@ -27,4 +27,8 @@ function authenticateToken(req, res, next) {
   });
 }
 
-module.exports = authenticateToken;
+const extractUserIdFromToken = (req) => {
+  return req.user ? req.user.uid : null;
+};
+
+module.exports = { authenticateToken, extractUserIdFromToken };

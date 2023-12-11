@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const DinoController = require('../controllers/DinoController');
-const authenticateToken = require('../middleware/middlewrae');
+const { authenticateToken } = require('../middleware/middlewrae');
 
 
 router.get('/dinosaurs', async (req, res) => {

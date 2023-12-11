@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.send('Api Dinosaure');
+  res.send('Api   Dinosaure');
 });
 
 const authRoutes = require('./src/routes/authRoutes');

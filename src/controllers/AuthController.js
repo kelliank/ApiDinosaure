@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-
 class AuthController {
   constructor(auth) {
     this.auth = auth;

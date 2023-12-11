@@ -1,5 +1,7 @@
 const admin = require('firebase-admin');
 const Dinosaure = require('../models/dinosaure');
+const { authenticateToken, extractUserIdFromToken } = require('../middleware/middlewrae');
+
 
 class DinoController {
   constructor() {
@@ -25,6 +27,8 @@ class DinoController {
 
   async createDino(req, res) {
     try {
+      const creationUser = extractUserIdFromToken(req);
+
       const {
         name,
         species,
@@ -34,16 +38,14 @@ class DinoController {
         tamingTime,
         habitat,
         map,
-        creationDate,
-        creationUser,
-        modificationDate,
-        modificationUser,
         active,
       } = req.body;
 
       if (!name || !species) {
         return res.status(400).json({ error: 'Name and species are required to create a dinosaur.' });
       }
+
+      const creationDate = new Date();
 
       const newDino = {
         name,
@@ -56,8 +58,8 @@ class DinoController {
         map,
         creationDate,
         creationUser,
-        modificationDate,
-        modificationUser,
+        modificationDate: null,
+        modificationUser: null,
         active,
       };
 
