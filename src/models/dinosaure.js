@@ -1,19 +1,19 @@
-const mongoose = require('mongoose');
-
-const Dinosaure = mongoose.model('Dinosaure', new mongoose.Schema({
-  name: { type: String, required: true },
-  species: { type: String, methodDomestication: String },
-  favoriteFood: { type: String },
-  rideable: { type: Boolean, default: false },
-  tamable: { type: Boolean, default: true },
-  tamingTime: { type: Number, default: 0 },
-  habitat: { type: String },
-  map: { type: String },
-  creationDate: { type: Date, required: true },
-  modificationDate: { type: Date, required: true },
-  creationUser: { type: String, required: true },
-  modificationUser: { type: String, required: true },
-  active: { type: Boolean, required: true },
-}));
+class Dinosaure {
+  constructor(name, species, favoriteFood, rideable, tamable, tamingTime, habitat, map, creationUser, active) {
+    this.name = name;
+    this.species = species;
+    this.favoriteFood = favoriteFood;
+    this.rideable = rideable;
+    this.tamable = tamable;
+    this.tamingTime = tamingTime;
+    this.habitat = habitat;
+    this.map = map;
+    this.creationUser = creationUser;
+    this.creationDate = new Date();
+    this.modificationUser = creationUser;
+    this.modificationDate = new Date();
+    this.active = active;
+  }
+}
 
 module.exports = Dinosaure;

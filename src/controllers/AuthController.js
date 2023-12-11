@@ -8,16 +8,18 @@ class AuthController {
   async createUser(email, password) {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
+
+      const customClaims = {
+        passwordHash: hashedPassword,
+      };
+
       const userRecord = await this.auth.createUser({
         email,
         password: hashedPassword,
       });
-  
-      // Définissez les custom claims après la création de l'utilisateur
-      await this.auth.setCustomUserClaims(userRecord.uid, {
-        passwordHash: hashedPassword,
-      });
-  
+
+      await this.auth.setCustomUserClaims(userRecord.uid, customClaims);
+
       console.log('Utilisateur créé avec UID:', userRecord.uid);
       return userRecord;
     } catch (error) {
@@ -25,7 +27,6 @@ class AuthController {
       throw error;
     }
   }
-  
 
   async deleteUser(uid) {
     try {
