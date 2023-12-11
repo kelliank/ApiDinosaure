@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 require('dotenv').config();
+const cors = require('cors');
 
 const serviceAccount = require('/ApiDinosaure/ApiDinosaure/apidinosaure-firebase-adminsdk-cu71k-16e23ed57b.json');
 
@@ -12,6 +13,7 @@ admin.initializeApp({
 
 const app = express();
 const db = admin.firestore();
+app.use(cors());
 
 
 app.use(bodyParser.json());
