@@ -4,7 +4,7 @@ const admin = require('firebase-admin');
 require('dotenv').config();
 const cors = require('cors');
 
-const serviceAccount = require('/ApiDinosaure/apidinosaure-firebase-adminsdk-cu71k-16e23ed57b.json');
+const serviceAccount = require('./apidinosaure-firebase-adminsdk-cu71k-16e23ed57b.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
