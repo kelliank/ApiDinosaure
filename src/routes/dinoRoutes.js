@@ -16,4 +16,8 @@ router.get('/dinosaurs/:id', async (req, res) => {
   await DinoController.getDinoById(req, res);
 });
 
+router.delete('/dinosaur/:id', authenticateToken, async (req, res) =>{
+  await DinoController.deleteDino(req, res);
+});
+
 module.exports = router;

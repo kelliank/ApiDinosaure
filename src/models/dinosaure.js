@@ -1,5 +1,5 @@
 class Dinosaure {
-  constructor(name, species, favoriteFood, rideable, tamable, tamingTime, habitat, map, creationUser, active) {
+  constructor(name, species, favoriteFood, rideable, tamable, tamingTime, habitat, map, creationUser, active, image) {
     this.name = name;
     this.species = species;
     this.favoriteFood = favoriteFood;
@@ -13,6 +13,7 @@ class Dinosaure {
     this.modificationUser = creationUser;
     this.modificationDate = new Date();
     this.active = active;
+    this.images = imagz;
   }
 }
 

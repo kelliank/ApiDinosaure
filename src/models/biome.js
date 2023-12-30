@@ -1,11 +1,16 @@
-const mongoose = require('mongoose');
-
-const Biome = mongoose.model('Biome', new mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String },
-  temperature: { type: String },
-  fauna: { type: [String] },
-  flora: { type: [String] },
-}));
+class Biome {
+  constructor(name, description, temperature, fauna, flora){
+    this.name = name;
+    this.description = description;
+    this.temperature = temperature;
+    this.fauna = fauna;
+    this.flora = flora;
+    this.creationUser = creationUser;
+    this.creationDate = new Date();
+    this.modificationUser = creationUser;
+    this.modificationDate = new Date();
+    this.active = active;
+  }
+}
 
 module.exports = Biome;

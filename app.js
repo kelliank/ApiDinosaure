@@ -25,8 +25,10 @@ app.get('/', (req, res) => {
 
 const authRoutes = require('./src/routes/authRoutes');
 const dinoRoutes = require('./src/routes/dinoRoutes')
+const biomeRoutes = require('./src/routes/biomeRoutes')
 app.use('/auth', authRoutes);
-app.use('/api', dinoRoutes)
+app.use('/api', dinoRoutes);
+app.use('/api', biomeRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

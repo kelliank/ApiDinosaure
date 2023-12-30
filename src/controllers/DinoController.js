@@ -39,6 +39,7 @@ class DinoController {
         habitat,
         map,
         active,
+        image,
       } = req.body;
 
       if (!name || !species) {
@@ -61,6 +62,7 @@ class DinoController {
         modificationDate: null,
         modificationUser: null,
         active,
+        image,
       };
 
       const docRef = await this.collectionDinosaurs.add(newDino);
@@ -94,6 +96,29 @@ class DinoController {
       res.json(dinosaur);
     } catch (error) {
       console.error('Error retrieving dinosaur by ID:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  }
+
+  async deleteDino(req, res) {
+    try {
+      const dinoId = req.params.id;
+
+      if (!dinoId) {
+        return res.status(400).json({ error: 'Dinosaur ID is required.' });
+      }
+
+      const docSnapshot = await this.collectionDinosaurs.doc(dinoId).get();
+
+      if (!docSnapshot.exists) {
+        return res.status(404).json({ error: 'Dinosaur not found.' });
+      }
+
+      await this.collectionDinosaurs.doc(dinoId).delete();
+
+      res.json({ success: true, message: 'Dinosaur deleted successfully.' });
+    } catch (error) {
+      console.error('Error deleting dinosaur:', error);
       res.status(500).send('Internal Server Error');
     }
   }

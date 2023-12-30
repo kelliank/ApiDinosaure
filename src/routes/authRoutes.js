@@ -4,12 +4,13 @@ const AuthController = require('../controllers/AuthController');
 const router = express.Router();
 const admin = require('firebase-admin');
 const jwt = require('jsonwebtoken');
+const { authenticateToken } = require('../middleware/middlewrae');
 
 router.use(bodyParser.json());
 
 const authController = new AuthController(admin.auth());
 
-router.post('/register', async (req, res) => {
+router.post('/register', authenticateToken, async (req, res) => {
   const { email, password, code } = req.body;
 
   try {
