@@ -20,4 +20,12 @@ router.delete('/dinosaur/:id', authenticateToken, async (req, res) =>{
   await DinoController.deleteDino(req, res);
 });
 
+router.post('/dinosaurs/:id/setActive', authenticateToken, async (req, res) => {
+  await DinoController.setActive(req, res);
+});
+
+router.post('/dinosaurs/:id/update', authenticateToken, async (req, res) => {
+  await DinoController.updateDino(req, res);
+});
+
 module.exports = router;

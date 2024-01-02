@@ -115,6 +115,75 @@ class BiomeController {
     }
   }
 
+  async setActive(req, res) {
+    try {
+      const biomeId = req.params.id;
+      const { active } = req.body;
+
+      if (!biomeId) {
+        return res.status(400).json({ error: 'Biome ID is required.' });
+      }
+
+      if (active === undefined || active === null) {
+        return res.status(400).json({ error: 'Active status is required.' });
+      }
+
+      const docSnapshot = await this.collectionBiome.doc(biomeId).get();
+
+      if (!docSnapshot.exists) {
+        return res.status(404).json({ error: 'Biome not found.' });
+      }
+
+      const updatedData = {
+        active,
+        modificationDate: new Date(),
+        modificationUser: extractUserIdFromToken(req),
+      };
+
+      await this.collectionBiome.doc(biomeId).update(updatedData);
+
+      res.json({ success: true, message: 'Biome active status updated successfully.' });
+    } catch (error) {
+      console.error('Error updating biome active status:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  }
+
+  async updateBiome(req, res) {
+    try {
+      const biomeId = req.params.id;
+      const { name, description, temperature, fauna, flora, active } = req.body;
+
+      if (!biomeId) {
+        return res.status(400).json({ error: 'Biome ID is required.' });
+      }
+
+      const docSnapshot = await this.collectionBiome.doc(biomeId).get();
+
+      if (!docSnapshot.exists) {
+        return res.status(404).json({ error: 'Biome not found.' });
+      }
+
+      const updatedData = {
+        name,
+        description,
+        temperature,
+        fauna,
+        flora,
+        active,
+        modificationDate: new Date(),
+        modificationUser: extractUserIdFromToken(req),
+      };
+
+      await this.collectionBiome.doc(biomeId).update(updatedData);
+
+      res.json({ success: true, message: 'Biome updated successfully.' });
+    } catch (error) {
+      console.error('Error updating biome:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  }
+
 }
 
 module.exports = new BiomeController();

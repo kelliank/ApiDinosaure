@@ -123,6 +123,89 @@ class DinoController {
     }
   }
 
+  async setActive(req, res) {
+    try {
+      const dinoId = req.params.id;
+      const { active } = req.body;
+
+      if (!dinoId) {
+        return res.status(400).json({ error: 'Dinosaur ID is required.' });
+      }
+
+      if (active === undefined || active === null) {
+        return res.status(400).json({ error: 'Active status is required.' });
+      }
+
+      const docSnapshot = await this.collectionDinosaurs.doc(dinoId).get();
+
+      if (!docSnapshot.exists) {
+        return res.status(404).json({ error: 'Dinosaur not found.' });
+      }
+
+      const updatedData = {
+        active,
+        modificationDate: new Date(),
+        modificationUser: extractUserIdFromToken(req),
+      };
+
+      await this.collectionDinosaurs.doc(dinoId).update(updatedData);
+
+      res.json({ success: true, message: 'Dinosaur active status updated successfully.' });
+    } catch (error) {
+      console.error('Error updating dinosaur active status:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  }
+
+  async updateDino(req, res) {
+    try {
+      const dinoId = req.params.id;
+      const {
+        name,
+        species,
+        favoriteFood,
+        rideable,
+        tamable,
+        tamingTime,
+        habitat,
+        map,
+        active,
+        image,
+      } = req.body;
+
+      if (!dinoId) {
+        return res.status(400).json({ error: 'Dinosaur ID is required.' });
+      }
+
+      const docSnapshot = await this.collectionDinosaurs.doc(dinoId).get();
+
+      if (!docSnapshot.exists) {
+        return res.status(404).json({ error: 'Dinosaur not found.' });
+      }
+
+      const updatedData = {
+        name,
+        species,
+        favoriteFood,
+        rideable,
+        tamable,
+        tamingTime,
+        habitat,
+        map,
+        active,
+        image,
+        modificationDate: new Date(),
+        modificationUser: extractUserIdFromToken(req),
+      };
+
+      await this.collectionDinosaurs.doc(dinoId).update(updatedData);
+
+      res.json({ success: true, message: 'Dinosaur updated successfully.' });
+    } catch (error) {
+      console.error('Error updating dinosaur:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  }
 }
 
 module.exports = new DinoController();

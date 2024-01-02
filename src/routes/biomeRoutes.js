@@ -20,4 +20,12 @@ router.delete('/biome/:id', authenticateToken, async (req, res) => {
   await BiomeController.deleteBiome(req, res);
 });
 
+router.post('/biome/:id/setActive', authenticateToken, async (req, res) => {
+  await BiomeController.setActive(req, res);
+});
+
+router.post('/biome/:id/update', authenticateToken, async (req, res) => {
+  await BiomeController.updateBiome(req, res);
+});
+
 module.exports = router;
